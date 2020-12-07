@@ -43,23 +43,40 @@ public class ExamServices {
 			String saldoInsuficiente = "Saldo insuficiente para realizar a operação.";
 			return saldoInsuficiente;
 		}
-		
-//		System.out.println(exame.getHealthcareInstitution()+" "+
-//		exame.getPatientName()+" "+
-//		exame.getPatientAge()+" "+
-//		exame.getPatientGender()+" "+
-//		exame.getPhysicianName()+" "+
-//		exame.getPhysicianCRM()+" "+
-//		exame.getProcedureName());
-		
+
 		idExame = idApoio + 1;
 		mapExam.put(idExame, exame); 
-		
-	//	System.out.println("O id do seu exame é: " + idExame);
 		
 		return idExame;
 	}
 	
+	public String atualizarExame(int idExame, String cnpjInstitution, String patientName, int patientAge, String patientGender, String physicianName,
+                                 int physicianCRM, String procedureName) {
+		
+		Exam exame = mapExam.get(idExame);
+		
+		Exam novoExame = new Exam(exame.getHealthcareInstitution(),patientName, patientAge, patientGender, physicianName, physicianCRM, procedureName);
+		if (exame.getHealthcareInstitution().getCnpj().equals(cnpjInstitution)) {
+			mapExam.replace(idExame, novoExame);
+		}else {
+			return "Exame pertence a outra instituição";
+		}
+		
+		return "Exame alterado com sucesso";
+	}
+	
+	public String apagarExame(int idExame, String cnpjInstitution) {
+
+		Exam exame = mapExam.get(idExame);
+		mapExam.get(idExame);
+		if (exame.getHealthcareInstitution().getCnpj().equals(cnpjInstitution)) {
+			mapExam.remove(idExame);
+		}else {
+			return "Exame pertence a outra instituição";
+		}
+
+		return "Exame excluido com sucesso";
+}
 	
 	private void debitarPixeonCoins(HealthCareInstitution instituicao) {
 		instituicao.debitarPixeonCoins();
@@ -109,17 +126,5 @@ public class ExamServices {
 		}
 		return exame;		
 	}
-	
-	
-//	public void setPixeonCoins(String healthCareId) {
-//		
-//		int healthCareCoins = pixeonCoins.get(healthCareId);
-//		
-//		if(healthCareCoins != 0 ) {
-//			pixeonCoins.put(healthCareId, coins);
-//		}
-//	}
-	
-	
 
 }

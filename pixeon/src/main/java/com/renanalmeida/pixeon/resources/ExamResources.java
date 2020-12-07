@@ -15,7 +15,7 @@ public class ExamResources {
 	@Autowired
 	private ExamServices exames;
 	
-	@RequestMapping(value="/listar/{id}/{cnpj}",method=RequestMethod.GET)
+	@RequestMapping(value="/listarExame/{id}/{cnpj}",method=RequestMethod.GET)
 	public Object listar(@PathVariable int id, @PathVariable String cnpj) {
 		
 		Object listaExames = exames.getExame(id, cnpj); 
@@ -24,29 +24,42 @@ public class ExamResources {
 	}
 	@RequestMapping(value="/criarExame/{cnpjInstitution}/{patientName}/{patientAge}/{patientGender}/{physicianName}/{physicianCRM}/{procedureName}",method=RequestMethod.GET)
 	public Object criarExame(@PathVariable String cnpjInstitution, @PathVariable String patientName, @PathVariable int patientAge, 
-			              @PathVariable String patientGender,   @PathVariable String physicianName,
-			              @PathVariable int physicianCRM, @PathVariable String procedureName) {
-		
+			@PathVariable String patientGender,   @PathVariable String physicianName,
+			@PathVariable int physicianCRM, @PathVariable String procedureName) {
+
 		Object exameId;
-		
+
 		exameId = exames.criarExame(cnpjInstitution, patientName, patientAge, patientGender, physicianName, physicianCRM, procedureName);
-		
+
 		return exameId;		
+	}
+
+	@RequestMapping(value="/alterarExame/{exameID}/{cnpjInstitution}/{patientName}/{patientAge}/{patientGender}/{physicianName}/{physicianCRM}/{procedureName}",method=RequestMethod.GET)
+	public Object alterarExame(@PathVariable int exameID, @PathVariable String cnpjInstitution, @PathVariable String patientName, @PathVariable int patientAge, 
+			@PathVariable String patientGender,   @PathVariable String physicianName,
+			@PathVariable int physicianCRM, @PathVariable String procedureName) {
+
+		Object retornoServico;
+
+		retornoServico = exames.atualizarExame(exameID,cnpjInstitution, patientName, patientAge, patientGender, physicianName, physicianCRM, procedureName);
+
+		return retornoServico;		
+	}
+	
+	@RequestMapping(value="/removerExame/{id}/{cnpj}",method=RequestMethod.GET)
+	public Object removerExame(@PathVariable int id, @PathVariable String cnpj) {
+		
+		Object retornoServico = exames.apagarExame(id, cnpj); 
+		
+		return retornoServico;
 	}
 	
 	@RequestMapping(value="/criarInstituicao/{cnpj}/{name}",method=RequestMethod.GET)
 	public Object criarInstituicao(@PathVariable String cnpj, @PathVariable String name) {
-		
+
 		exames.inserirInstituicao(cnpj, name);
-		
+
 		return "Instituição criada";
 	}
-	
-	@RequestMapping(value="/buscar/{id}/{cnpj}",method=RequestMethod.GET)
-	public Object criarInstituicao(@PathVariable int id, @PathVariable String cnpj) {
-		
-		Object listaExames = exames.getExame(id, cnpj); 
-		
-		return listaExames;
-	}
+
 }

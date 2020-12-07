@@ -53,10 +53,5 @@ public class HealthCareInstitution {
 			
 			return pixeonCoins;
 		}
-		
-		//gravarBD();
-		
-		//return coins;
-	
 	
 }
